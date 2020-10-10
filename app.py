@@ -7,6 +7,8 @@ from flask import (
     session,
     url_for
 )
+import random
+
 
 app = Flask(__name__)
 app.secret_key = 'abcdefghijklmnop'
@@ -50,6 +52,7 @@ def before_request():
     if 'user_id' in session:
         user = [x for x in users if session['user_id'] == x.id][0]
         g.user = user
+        session['session_id'] = random.randint(100, 500)
 
 
 # login page -> index page call
@@ -74,12 +77,24 @@ def login():
 # home page call for users
 @app.route('/home', methods=['GET', 'POST'])
 def home():
+    operations_dict = {}
     if request.method == 'POST':
         num1 = request.form['num1']
         num2 = request.form['num2']
         operation = request.form['operation']
-        operations_dict = {session['user_name']: [num1, num2, operation]}
 
+        if operation == 'add':
+            opt = 'addition'
+        elif operation == 'subtract':
+            opt = 'subtraction'
+        elif operation == 'multiply':
+            opt = 'multiplication'
+        else:
+            opt = 'division'
+
+        operations_dict = {session['user_name']: [opt, num1, num2]}
+
+        # print(operations_dict)
         if not num1 or not num2:
             num1 = 0
             num2 = 0

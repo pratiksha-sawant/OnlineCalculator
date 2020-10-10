@@ -24,19 +24,23 @@
 			<input type = "submit" value = "Calculate">
 		</form>
 		
+		<br>
 		<button class="buttons"><a class = "anchor" href="{{ url_for('login')}}">Logout</a></button>
 		
+		<br>
 		<div class="result">
           {{ result }}
         </div>
 		
-		<div>
+		<br>
+		
+		<div class="notify">
 		{% for key, val in operations_dict.items() %}
-			{% if val == 0 %}
+			{% if val1 == 0 %}
 				<p></p>
 			{% else %}
-				<p> {{key}} posted {{val}} </p>
-			{% endif %}	
+				<p> {{key}} posted {{val[0]}} of {{val[1]}} and {{val[2]}} </p>
+			{% endif %}
 		{% endfor %}
 		</div>
 		
