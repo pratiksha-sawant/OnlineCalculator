@@ -14,13 +14,14 @@ import random
 app = Flask(__name__)
 app.secret_key = 'abcdefghijklmnop'
 
-ENV = 'dev'
+ENV = 'prod'
+
 if ENV == 'dev':
     app.debug = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/calculator'
 else:
     app.debug = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = ''
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://byrjbqoabvkqma:54c76c2d12d6f9ed56bb0a976f8c062f8f1e98d85ad4469ece1e363bbe572614@ec2-54-146-142-58.compute-1.amazonaws.com:5432/d1ma22ufvekqn0'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 

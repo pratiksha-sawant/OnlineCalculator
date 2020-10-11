@@ -5,6 +5,9 @@
 	<div>
 		<h1> Welcome {{g.user.username}} </h2>
 		
+		<br>
+		<button class="buttons"><a class = "anchor" href="{{ url_for('login')}}">Logout</a></button>
+		
 		<form action="" method = "POST">
 			<input type = "text" placeholder = "num1" name = "num1">
 			<br>
@@ -25,15 +28,11 @@
 		</form>
 		
 		<br>
-		<button class="buttons"><a class = "anchor" href="{{ url_for('login')}}">Logout</a></button>
-		
-		<br>
 		<div class="result">
           {{ result }}
         </div>
 		
 		<br>
-		
 		<div class="notify">
 		{% for key, val in operations_dict.items() %}
 			{% if val == 0 %}
