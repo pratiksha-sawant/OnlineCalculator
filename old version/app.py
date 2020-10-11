@@ -7,45 +7,11 @@ from flask import (
     session,
     url_for
 )
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import desc
 import random
+
 
 app = Flask(__name__)
 app.secret_key = 'abcdefghijklmnop'
-
-ENV = 'dev'
-if ENV == 'dev':
-    app.debug = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/calculator'
-else:
-    app.debug = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = ''
-
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
-
-
-class Calculator(db.Model):
-    __tablename__ = 'calculations'
-    cal_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer)
-    user_name = db.Column(db.String(20))
-    num1 = db.Column(db.Float)
-    num2 = db.Column(db.Float)
-    operations = db.Column(db.String(20))
-    signs = db.Column(db.String(20))
-    answer = db.Column(db.Float)
-
-    def __init__(self, user_id,user_name, num1, num2, operations, signs, answer):
-        self.user_id = user_id
-        self.user_name = user_name
-        self.num1 = num1
-        self.num2 = num2
-        self.operations = operations
-        self.signs = signs
-        self.answer = answer
 
 
 # user class to store login information
@@ -77,9 +43,7 @@ class Calculation:
         return result
 
 
-user1 = User(id=1, username='user1', password="user1")
-user2 = User(id=2, username='user2', password="user2")
-users = [user1, user2]
+users = [User(id=1, username='user1', password="user1"), User(id=2, username='user2', password="user2")]
 
 
 # creating the session for each user
@@ -124,38 +88,19 @@ def home():
         elif operation == 'subtract':
             opt = '-'
         elif operation == 'multiply':
-            opt = 'x'
+            opt = '*'
         else:
             opt = '/'
+
+        operations_dict = {session['user_name']: [opt, num1, num2]}
 
         # print(operations_dict)
         if not num1 or not num2:
             num1 = 0
             num2 = 0
 
-        # calculation the result
         values = Calculation(num1, num2, operation)
         result = values.calculator()
-
-        # store the result in database
-        data = Calculator(session['user_id'], session['user_name'], num1, num2, operation, opt, result)
-        db.session.add(data)
-        db.session.commit()
-
-        # store the result in database
-        # if session['user_id'] == user1.id:
-        #     data1 = Calculator(user1.id, user1.username, num1, num2, operation, opt, result)
-        #     db.session.add(data1)
-        #     db.session.commit()
-        # else:
-        #     data2 = Calculator(user2.id, user2.username,  num1, num2, operation, opt, result)
-        #     db.session.add(data2)
-        #     db.session.commit()
-
-        # display top 10 calculations by users on web page
-        cl_result = db.session.query(Calculator).order_by(desc(Calculator.cal_id)).limit(10).all()
-        for row in cl_result:
-            operations_dict[row.cal_id] = [row.user_name, row.num1, row.num2, row.operations, row.signs, row.answer]
 
         return render_template('home.html', result=result, operations_dict=operations_dict)
 
