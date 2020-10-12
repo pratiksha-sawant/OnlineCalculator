@@ -16,7 +16,7 @@ https://webappcalculator.herokuapp.com/
 <li>Result in shown on the webpage along with the last 10 calculations performed by all users using this application</li>
 <li>Click logout to leave the session</li>
 
-# Specification
+# Technology
 
 Web Development - Python, Flask, HTML, CSS
 
