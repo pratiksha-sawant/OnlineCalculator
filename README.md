@@ -24,6 +24,8 @@ Database - PostgresSQL
 
 Deployment - Heroku
 
+Supports DEV and PROD environment -> change variable ENV
+
 # Files
 
 <li>app.py : Flask code</li>
