@@ -13,7 +13,7 @@ https://webappcalculator.herokuapp.com/
 <li>Enter number2 in second input text</li>
 <li>Select the operation</li>
 <li>Click Calculate</li>
-<li>Result in shown on the webpage along with the last 10 calculations</li>
+<li>Result in shown on the webpage along with the last 10 calculations performed by all users using this application</li>
 <li>Click logout to leave the session</li>
 
 # Specification
