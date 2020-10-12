@@ -88,9 +88,11 @@ user1 = User(id=1, username='user1', password="user1")
 user2 = User(id=2, username='user2', password="user2")
 users = [user1, user2]
 
-userList = []
+userNameList = []
+userIDList = []
 for u in users:
-    userList.append(u.username)
+    userNameList.append(u.username)
+    userIDList.append(u.id)
 
 
 # creating the session for each user
@@ -99,9 +101,11 @@ def before_request():
     if 'user_id' in session:
         if session['user_id'] == '':
             user = dummyUser
+        elif session['user_id'] not in userIDList:
+            user = dummyUser
         else:
-            # user = [x for x in users if session['user_id'] == x.id][0]
-            user = [x if session['user_id'] == x.id else dummyUser for x in users][0]
+            user = [x for x in users if session['user_id'] == x.id][0]
+            # user = [x if session['user_id'] == x.id else dummyUser for x in users][0]
             g.user = user
             session['session_id'] = random.randint(100, 500)
 
@@ -117,7 +121,7 @@ def login():
 
         if username == '' and password == '':
             user = dummyUser
-        elif username not in userList:
+        elif username not in userNameList:
             user = dummyUser
         else:
             user = [x for x in users if x.username == username][0]  # select the correct user
@@ -125,7 +129,7 @@ def login():
         if user and user.password == password:
             session['user_id'] = user.id
             session['user_name'] = user.username
-            flash('You were successfully logged in')
+
             return redirect(url_for('home'))  # if method post start the user session
         else:
             return redirect(url_for('login'))  # if there's any error just return the login page
