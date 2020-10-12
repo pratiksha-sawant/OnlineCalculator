@@ -1,0 +1,174 @@
+body {
+   background-color:#B2D732;
+}
+
+.login-container{
+	text-align: center;	
+}
+
+.container{
+	text-align: center;	
+	width:600px;
+	height:325px;
+	background-color:#F2FAD1 ;
+	border-radius: 4px;
+	border-style: groove;
+	border-color: #B2D732;
+}
+
+.result{
+	background-color : #F2FAD1;
+	border-radius: 4px;
+	text-align: center;
+	display: inline-block;
+	font-size: 18px;
+	font-weight: bold;
+	margin: 4px 2px;
+	width:600px;
+	width:600px;
+	height:25px;
+	position: static;
+	top: 55px;
+	left: 180px;
+	right: 130px;
+	font-family:Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+	font-style: normal;
+	font-size: 18px;
+	font-stretch: normal;
+	color: #092834;
+}
+
+.notify{
+	border-radius: 4px;
+	text-align: left;
+	display: inline-block;
+	font-size: 18px;
+	font-weight: medium;
+	position: static;
+	top: 55px;
+	left: 180px;
+	right: 130px;
+	font-family:Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+	font-style: normal;
+	font-size: 16px;
+	font-stretch: normal;
+	color: #092834;	
+}
+
+h1 { 
+  display: block;
+  font-size: 2em;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+  font-family:Georgia, Times, Times New Roman, serif;
+  color: #092834;
+}
+
+input[type=password]{
+	border-radius: 4px;
+	text-align: left;
+	display: inline-block;
+	font-size: 18px;
+	font-weight: medium;
+	margin: 4px 2px;
+	width:191px;
+	height:45px;
+	position: static;
+	top: 60px;
+	left: 180px;
+	right: 130px;
+	font-family:Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+	font-style: normal;
+	font-size: 18px;
+	font-stretch: normal;
+	color: #092834;
+}
+
+input[type=text]{
+	border-radius: 4px;
+	text-align: left;
+	display: inline-block;
+	font-size: 18px;
+	font-weight: medium;
+	margin: 4px 2px;
+	width:191px;
+	height:45px;
+	position: static;
+	top: 55px;
+	left: 180px;
+	right: 130px;
+	font-family:Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+	font-style: normal;
+	font-size: 18px;
+	font-stretch: normal;
+	color: #092834;
+}
+
+input[type=submit]{
+	background-color : #B2D732; /*#FFD700; Pale Yellow*/
+	border: 1px solid black;
+	border-radius: 4px;
+	text-align: center;
+	display: inline-block;
+	font-size: 18px;
+	font-weight: bold;
+	margin: 4px 2px;
+	transition-duration: 0.4s;
+	cursor: pointer;
+	width:191px;
+	height:45px;
+	position: static;
+	top: 55px;
+	left: 180px;
+	right: 130px;
+	font-family:Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+	font-style: normal;
+	font-size: 18px;
+	font-stretch: normal;
+}
+
+.buttons{
+	/*background-color : #AFEEEE; Pale Turquoise*/
+	border: 1px solid black;
+	border-radius: 4px;
+	text-align: center;
+	display: inline-block;
+	font-size: 14px;
+	margin: 4px 2px;
+	transition-duration: 0.4s;
+	cursor: pointer;
+	width:150px;
+	height:35px;
+	position: static;
+	top: 55px;
+	left: 130px;
+	right: 130px;
+	font-family:Georgia, Times, Times New Roman, serif;
+	font-style: normal;
+	font-size: 18px;
+	font-stretch: normal;
+}
+
+
+.u-full-width{
+	border-radius: 4px;
+	text-align: left;
+	display: inline-block;
+	font-size: 18px;
+	font-weight: medium;
+	margin: 4px 2px;
+	width:191px;
+	height:45px;
+	position: static;
+	top: 55px;
+	left: 180px;
+	right: 130px;
+	font-family:Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+	font-style: normal;
+	font-size: 18px;
+	font-stretch: normal;
+}
+

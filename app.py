@@ -5,7 +5,8 @@ from flask import (
     render_template,
     request,
     session,
-    url_for
+    url_for,
+    flash
 )
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
@@ -15,19 +16,22 @@ app = Flask(__name__)
 app.secret_key = 'abcdefghijklmnop'
 
 ENV = 'prod'
+# ENV = 'dev'
 
 if ENV == 'dev':
     app.debug = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/calculator'
 else:
     app.debug = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://byrjbqoabvkqma:54c76c2d12d6f9ed56bb0a976f8c062f8f1e98d85ad4469ece1e363bbe572614@ec2-54-146-142-58.compute-1.amazonaws.com:5432/d1ma22ufvekqn0'
+    app.config[
+        'SQLALCHEMY_DATABASE_URI'] = 'postgres://byrjbqoabvkqma:54c76c2d12d6f9ed56bb0a976f8c062f8f1e98d85ad4469ece1e363bbe572614@ec2-54-146-142-58.compute-1.amazonaws.com:5432/d1ma22ufvekqn0'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
 
+# class to create the database model
 class Calculator(db.Model):
     __tablename__ = 'calculations'
     cal_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -39,7 +43,7 @@ class Calculator(db.Model):
     signs = db.Column(db.String(20))
     answer = db.Column(db.Float)
 
-    def __init__(self, user_id,user_name, num1, num2, operations, signs, answer):
+    def __init__(self, user_id, user_name, num1, num2, operations, signs, answer):
         self.user_id = user_id
         self.user_name = user_name
         self.num1 = num1
@@ -58,7 +62,6 @@ class User:
 
 
 # calculation class to create calculative objects
-
 class Calculation:
     def __init__(self, num1, num2, operation):
         self.num1 = num1
@@ -72,24 +75,35 @@ class Calculation:
             result = float(self.num1) - float(self.num2)
         elif self.operation == 'multiply':
             result = float(self.num1) * float(self.num2)
-        else:
+        elif self.operation == 'divide':
             result = float(self.num1) / float(self.num2)
+        else:
+            result = 0.0
 
         return result
 
 
+dummyUser = User(id=None, username=None, password=None)
 user1 = User(id=1, username='user1', password="user1")
 user2 = User(id=2, username='user2', password="user2")
 users = [user1, user2]
+
+userList = []
+for u in users:
+    userList.append(u.username)
 
 
 # creating the session for each user
 @app.before_request
 def before_request():
     if 'user_id' in session:
-        user = [x for x in users if session['user_id'] == x.id][0]
-        g.user = user
-        session['session_id'] = random.randint(100, 500)
+        if session['user_id'] == '':
+            user = dummyUser
+        else:
+            # user = [x for x in users if session['user_id'] == x.id][0]
+            user = [x if session['user_id'] == x.id else dummyUser for x in users][0]
+            g.user = user
+            session['session_id'] = random.randint(100, 500)
 
 
 # login page -> index page call
@@ -98,15 +112,23 @@ def login():
     if request.method == 'POST':
         session.pop('user_id', None)  # removes the current session if same user tries to login again
         username = request.form['username']
+        # print(username)
         password = request.form['password']
-        user = [x for x in users if x.username == username][0]  # select the correct user
+
+        if username == '' and password == '':
+            user = dummyUser
+        elif username not in userList:
+            user = dummyUser
+        else:
+            user = [x for x in users if x.username == username][0]  # select the correct user
 
         if user and user.password == password:
             session['user_id'] = user.id
             session['user_name'] = user.username
+            flash('You were successfully logged in')
             return redirect(url_for('home'))  # if method post start the user session
-
-        return redirect(url_for('login'))  # if there's any error just return the login page
+        else:
+            return redirect(url_for('login'))  # if there's any error just return the login page
 
     return render_template('login.html')  # if method get just return the login page
 
@@ -126,10 +148,12 @@ def home():
             opt = '-'
         elif operation == 'multiply':
             opt = 'x'
-        else:
+        elif operation == 'divide':
             opt = '/'
+        else:
+            opt = None
 
-        # print(operations_dict)
+        # if numbers are null then default assignment
         if not num1 or not num2:
             num1 = 0
             num2 = 0
@@ -138,20 +162,12 @@ def home():
         values = Calculation(num1, num2, operation)
         result = values.calculator()
 
+        # print(result)
+
         # store the result in database
         data = Calculator(session['user_id'], session['user_name'], num1, num2, operation, opt, result)
         db.session.add(data)
         db.session.commit()
-
-        # store the result in database
-        # if session['user_id'] == user1.id:
-        #     data1 = Calculator(user1.id, user1.username, num1, num2, operation, opt, result)
-        #     db.session.add(data1)
-        #     db.session.commit()
-        # else:
-        #     data2 = Calculator(user2.id, user2.username,  num1, num2, operation, opt, result)
-        #     db.session.add(data2)
-        #     db.session.commit()
 
         # display top 10 calculations by users on web page
         cl_result = db.session.query(Calculator).order_by(desc(Calculator.cal_id)).limit(10).all()
@@ -160,7 +176,7 @@ def home():
 
         return render_template('home.html', result=result, operations_dict=operations_dict)
 
-    return render_template('home.html', operations_dict={session['user_name']: 0})
+    return render_template('home.html', result=None, operations_dict={session['user_name']: 0})
 
 
 if __name__ == "__main__":

@@ -1,39 +1,42 @@
 <html>
 <head>
+	<title>Home page</title>
+	<link rel="stylesheet" href="{{url_for('static', filename='main/styles.css')}}">
 </head>
 <body>
-	<div>
-		<h1> Welcome {{g.user.username}} </h2>
-		
-		<br>
+<div class = "main">
+	<center>
+	<h1> Welcome {{g.user.username}}!! </h1>
+	</center>
+	<br>
+	<center>
+	<div class = "container">
 		<button class="buttons"><a class = "anchor" href="{{ url_for('login')}}">Logout</a></button>
-		
+		<p></p>
 		<form action="" method = "POST">
-			<input type = "text" placeholder = "num1" name = "num1">
+			<input type = "text" placeholder = "num1" name = "num1" required>
 			<br>
+			<input type = "text" placeholder = "num2" name = "num2" required>
 			<br>
-			<input type = "text" placeholder = "num2" name = "num2">
-			<br>
-			<br>
-			<label for="Operation">Operation</label>
 			<select class="u-full-width" name="operation">
+			  <option value="free" selected>Operations</option> 
 			  <option value="add">Add</option>
 			  <option value="subtract">Subtract</option>
 			  <option value="multiply">Multiply</option>
 			  <option value="divide">Divide</option>
 			</select>
 			<br>
-			<br>
 			<input type = "submit" value = "Calculate">
 		</form>
-		
-		<br>
-		<div class="result">
-          {{ result }}
-        </div>
-		
-		<br>
-		<div class="notify">
+	</div>
+	
+	<br>
+	<div class="result">
+		Answer = {{ result }}
+    </div>
+	
+	<br>
+	<div class="notify">
 		{% for key, val in operations_dict.items() %}
 			{% if val == 0 %}
 				<p></p>
@@ -41,7 +44,7 @@
 				<p> {{val[0]}} posted {{val[1]}} {{val[4]}} {{val[2]}} = {{val[5]}}</p>
 			{% endif %}
 		{% endfor %}
-		</div>
-		
 	</div>
+	</center>
+</div>
 </body>

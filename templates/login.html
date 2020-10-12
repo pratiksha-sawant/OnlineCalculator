@@ -1,20 +1,25 @@
 <html>
 <head>
 	<title>Login Page</title>
+	<link rel="stylesheet" href="{{url_for('static', filename='main/styles.css')}}">
 </head>
+
+
 <body>
+	<center>
 	<div class = "container">
 		<h1> Please login </h1>
 		<br>
-		<form action="" method = "POST">
-			<input type = "text" placeholder = "UserName" name = "username" value = "{{request.form.username}}">
+		<form action="" method = "POST" name="loginform">
+			<input type = "text" placeholder = "UserName" name = "username" value = "{{request.form.username}}" required>
 			<br>
 			<br>
-			<input type = "password" placeholder = "Password" name = "password" value = "{{request.form.password}}">
+			<input type = "password" placeholder = "Password" name = "password" value = "{{request.form.password}}" required>
 			<br>
 			<br>
 			<input type = "submit" value = "Login">
 		</form>
 	</div>
+	</center>
 </body>
 </html>
