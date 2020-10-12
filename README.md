@@ -11,7 +11,7 @@ username : user2, password : user2
 
 Note : If more users are to be added please add the new user object in class Users (file app.py code line #87 to #89)
 
-If any othe user credentials are added the code will redirect to login page itself
+If any other user credentials are added the code will redirect to login page itself
 
 # Application Link
 
