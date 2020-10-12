@@ -17,7 +17,7 @@ If any other user credentials are added the code will redirect to login page its
 
 https://webappcalculator.herokuapp.com/
 
-![](images/login.png)
+![](images/login.PNG)
 
-![](images/home.png)
+![](images/home.PNG)
 
